@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : Spawner<Enemy>
@@ -9,9 +10,10 @@ public class EnemySpawner : Spawner<Enemy>
 
     public void Reset()
     {
-        foreach (var enemy in _container.GetComponentsInChildren<Enemy>())
+        var enemyToDeactivate = new List<Enemy>(Objects);
+
+        foreach (Enemy enemy in enemyToDeactivate)
         {
-            enemy.PoolProjectail.DeactivateObjects();
             PutObject(enemy);
         }
     }

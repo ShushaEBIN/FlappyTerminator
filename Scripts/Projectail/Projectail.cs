@@ -1,18 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(ProjectailMover), typeof(CollisionHandler))]
+[RequireComponent(typeof(CollisionHandler))]
 public class Projectail : MonoBehaviour, IInteractable
 {
     [SerializeField] private Spawner<Projectail> _pool;    
 
-    private float _lifeTime = 2.5f;
-    private ProjectailMover _mover;
+    private float _lifeTime = 10f;
     private CollisionHandler _handler;
 
     private void Awake()
     {
-        _mover = GetComponent<ProjectailMover>();
         _handler = GetComponent<CollisionHandler>();
     }
 
@@ -28,9 +26,14 @@ public class Projectail : MonoBehaviour, IInteractable
         _handler.CollisionDetected -= ProcessCollision;
     }
 
+    public void Deactivate()
+    {
+        _pool.PutObject(this);
+    }
+
     private void ProcessCollision(IInteractable interactable)
     {
-        if (interactable is Player || interactable is Enemy || interactable is Projectail)
+        if (interactable is Player || interactable is Enemy)
         {
             StopCoroutine(Count());
 

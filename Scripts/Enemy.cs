@@ -9,12 +9,9 @@ public class Enemy : MonoBehaviour, IInteractable
 
     private CollisionHandler _handler;
 
-    public EnemyProjectailSpawner PoolProjectail { get; private set; }
-
     private void Awake()
     {
         _handler = GetComponent<CollisionHandler>();
-        PoolProjectail = _poolProjectail;
     }
 
     private void OnEnable()
@@ -25,6 +22,12 @@ public class Enemy : MonoBehaviour, IInteractable
     private void OnDisable()
     {
         _handler.CollisionDetected -= ProcessCollision;
+    }
+
+    public void Deactivate()
+    {
+        _poolProjectail.DeactivateObjects();
+        _pool.PutObject(this);
     }
 
     private void ProcessCollision(IInteractable interactable)

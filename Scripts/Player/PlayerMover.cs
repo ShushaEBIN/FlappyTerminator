@@ -15,6 +15,8 @@ public class PlayerMover : MonoBehaviour
     private Quaternion _minRotation;
     private InputHandler _inputHandler;
 
+    public Vector2 Direction => transform.right;
+
     public void Reset()
     {
         transform.position = _startPosition;
@@ -41,5 +43,5 @@ public class PlayerMover : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
-    }    
+    }
 }
